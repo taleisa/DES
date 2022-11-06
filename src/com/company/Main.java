@@ -3,6 +3,7 @@ package com.company;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -53,12 +54,14 @@ public class Main {
         System.out.println("Step 2 (Expansion Permutation): Input: " + Arrays.toString(messageAfterIP) + " Left-Half: " +messageLeftHalf+ " Right-Half: " +messageRightHalf+ " Output: ");
 
     }
-    public static char[] keyExpansion(char[] keyArray){
+    public static HashMap<String,String> keyExpansion(char[] keyArray){
+        HashMap<String,String> roundKeys;
         keyArray = removeParity(keyArray);// Method that will remove parity bits and return 56 bit char array
+        roundKeys = splitAndJoin(keyArray);// Method that will split, rotate, join, permutate and store the round keys in a hashmap. This will yield the final form of all round keys 
         
         
         
-        return keyArray;
+        return roundKeys;
 
 
     }
@@ -73,4 +76,50 @@ public class Main {
         key56bit = key56bitString.toCharArray();// Convert string to char array
         return key56bit;
     }
+    public static HashMap<String,String> splitAndJoin(char[] keyArray){
+        HashMap<String,String> roundKeys = new HashMap<>();
+        char[] leftHalf = Arrays.copyOfRange(keyArray, 0,(keyArray.length/2)-1);// The left half also known as C0
+        char[] rightHalf = Arrays.copyOfRange(keyArray, keyArray.length/2,keyArray.length-1);// The right half also known as D0
+        for(int i=0;i<16;i++){
+            if(i==1||i==2||i==9||i==16){// In the 1st 2nd 9th and 16th round rotate by one position
+                leftHalf = rotate(leftHalf, 1);
+                rightHalf = rotate(rightHalf, 1);
+            }
+            else{// Else rotate by two positions
+                leftHalf = rotate(leftHalf, 2);
+                rightHalf = rotate(rightHalf, 2);
+            }
+            char[] joined = new char[56];
+            for(int j=0;j<56;j++){
+                if(i<28){//To add the left array(first 28 bits)
+                    joined[i] = leftHalf[i];
+                }else{// To add the right array(28 bits) which start at index 28
+                    joined[i] = rightHalf[i-28];// We subtract 28 because at iteration 28 we want the first index of the right array
+                }
+            }
+            joined = permutate(joined);
+            roundKeys.put("key"+i,Arrays.toString(joined) );
+            
+        }
+        
+
+
+
+    }
+    //Method that will left rotate by int rotation
+    public static char[] rotate(char[] halfKey, int rotation ){
+        for(int i=0;i<rotation;i++){
+            char temp = halfKey[i];
+            halfKey[i] = halfKey[halfKey.length-(i+1)];
+            halfKey[halfKey.length-(i+1)] = temp;
+        }
+        return halfKey;
+
+
+    }
+    public static char[] permutate(char[] keyArray){
+
+
+    }
+
 }
