@@ -56,25 +56,23 @@ public class Main {
     }
     public static HashMap<String,String> keyExpansion(char[] keyArray){
         HashMap<String,String> roundKeys;
-        keyArray = removeParity(keyArray);// Method that will remove parity bits and return 56 bit char array
-        roundKeys = splitAndJoin(keyArray);// Method that will split, rotate, join, permutate and store the round keys in a hashmap. This will yield the final form of all round keys 
+        char[] permutatedKeyArray =
+                {
+                        keyArray[56], keyArray[48], keyArray[40], keyArray[32], keyArray[24], keyArray[16], keyArray[8]
+                        , keyArray[0], keyArray[57], keyArray[49], keyArray[41], keyArray[33], keyArray[25], keyArray[17]
+                        , keyArray[9], keyArray[1], keyArray[58], keyArray[50], keyArray[42], keyArray[34], keyArray[26]
+                        , keyArray[18], keyArray[10], keyArray[2], keyArray[59], keyArray[51], keyArray[43], keyArray[35]
+                        , keyArray[62], keyArray[54], keyArray[46], keyArray[38], keyArray[30], keyArray[22], keyArray[14]
+                        , keyArray[6], keyArray[61], keyArray[53], keyArray[45], keyArray[37], keyArray[29], keyArray[21]
+                        , keyArray[13], keyArray[5], keyArray[60], keyArray[52], keyArray[44], keyArray[36], keyArray[28]
+                        , keyArray[20], keyArray[12], keyArray[4], keyArray[27], keyArray[19], keyArray[11], keyArray[3]};
+        roundKeys = splitAndJoin(permutatedKeyArray);// Method that will split, rotate, join, permutate and store the round keys in a hashmap. This will yield the final form of all round keys 
         
         
         
         return roundKeys;
 
 
-    }
-    public static char[] removeParity(char[] key64bit){
-        String key56bitString = "";// Use string to concatenate and not worry about index
-        char[] key56bit;// Array that will be returned
-        for(int i = 0;i<key64bit.length;i++){
-            if(i%7==0)continue;// The 8th bit is a parity bit
-            key56bitString.concat(key64bit[i]+""); // Add bit to arraylist
-        
-        }
-        key56bit = key56bitString.toCharArray();// Convert string to char array
-        return key56bit;
     }
     public static HashMap<String,String> splitAndJoin(char[] keyArray){
         HashMap<String,String> roundKeys = new HashMap<>();
@@ -98,9 +96,10 @@ public class Main {
                 }
             }
             joined = permutate(joined);
-            roundKeys.put("key"+i,Arrays.toString(joined) );
+            roundKeys.put("key"+i,Arrays.toString(joined));
             
         }
+        return roundKeys;
         
 
 
@@ -118,7 +117,18 @@ public class Main {
 
     }
     public static char[] permutate(char[] keyArray){
-
+        char[] permutatedKeyArray =
+                {
+                        keyArray[13], keyArray[16], keyArray[10], keyArray[23], keyArray[0], keyArray[4]
+                        , keyArray[2], keyArray[27], keyArray[14], keyArray[5], keyArray[20], keyArray[9]
+                        , keyArray[22], keyArray[18], keyArray[11], keyArray[3], keyArray[25], keyArray[7]
+                        , keyArray[15], keyArray[6], keyArray[26], keyArray[19], keyArray[12], keyArray[1]
+                        , keyArray[40], keyArray[51], keyArray[30], keyArray[36], keyArray[46], keyArray[54]
+                        , keyArray[29], keyArray[39], keyArray[50], keyArray[44], keyArray[32], keyArray[47]
+                        , keyArray[43], keyArray[48], keyArray[38], keyArray[55], keyArray[33], keyArray[52]
+                        , keyArray[45], keyArray[41], keyArray[49], keyArray[35], keyArray[28], keyArray[31]};
+        return permutatedKeyArray;
+                        
 
     }
 
