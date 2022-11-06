@@ -15,14 +15,14 @@ public class Main {
 
         System.out.println("Enter the key (In Binary 56-bit)");
         String keyString = input.nextLine();// String that will hold the key
-        while (keyString.length() != 56) {// Exception handling for key size larger than 56
-            System.out.println("Key length must be exactly 56 bits, retype the key");
+        while (keyString.length() != 64) {// Exception handling for key size larger than 64
+            System.out.println("Key length must be exactly 64 bits, retype the key");
             keyString = input.nextLine();
         }
 
         char[] messageArray = messageString.toCharArray();// Converting string to array to easily manipulate
         char[] keyArray = keyString.toCharArray();// Converting string to array to easily manipulate
-        keyExpansion(keyArray);// Method to handle key expansion
+        HashMap<String,String> roundkeys =  keyExpansion(keyArray);// Method to handle key expansion
 
         char[] messageAfterIP = //Permutating based on the Initial Permutation fixed matrix (64-bit).
                 {
