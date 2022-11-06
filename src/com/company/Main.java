@@ -1,6 +1,7 @@
 package com.company;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -20,6 +21,7 @@ public class Main {
 
         char[] messageArray = messageString.toCharArray();// Converting string to array to easily manipulate
         char[] keyArray = keyString.toCharArray();// Converting string to array to easily manipulate
+        keyExpansion(keyArray);// Method to handle key expansion
 
         char[] messageAfterIP =
                 {
@@ -50,5 +52,25 @@ public class Main {
 
         System.out.println("Step 2 (Expansion Permutation): Input: " + Arrays.toString(messageAfterIP) + " Left-Half: " +messageLeftHalf+ " Right-Half: " +messageRightHalf+ " Output: ");
 
+    }
+    public static char[] keyExpansion(char[] keyArray){
+        keyArray = removeParity(keyArray);// Method that will remove parity bits and return 56 bit char array
+        
+        
+        
+        return keyArray;
+
+
+    }
+    public static char[] removeParity(char[] key64bit){
+        String key56bitString = "";// Use string to concatenate and not worry about index
+        char[] key56bit;// Array that will be returned
+        for(int i = 0;i<key64bit.length;i++){
+            if(i%7==0)continue;// The 8th bit is a parity bit
+            key56bitString.concat(key64bit[i]+""); // Add bit to arraylist
+        
+        }
+        key56bit = key56bitString.toCharArray();// Convert string to char array
+        return key56bit;
     }
 }
