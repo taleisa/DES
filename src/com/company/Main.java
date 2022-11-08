@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.annotation.processing.SupportedOptions;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -368,7 +370,6 @@ public class Main {
         roundKeys = splitAndJoin(permutatedKeyArray);// Method that will split, rotate, join, permutate and
         // store the round keys in a hashmap. This will yield the
         // final form of all round keys
-
         return roundKeys;
 
     }
@@ -389,8 +390,7 @@ public class Main {
                 leftHalf = rotate(leftHalf, 2);
                 rightHalf = rotate(rightHalf, 2);
             }
-            char[] joined = (arrayToString(leftHalf) + "" + arrayToString(rightHalf))
-                    .toCharArray();
+            char[] joined = (arrayToString(leftHalf) + "" + arrayToString(rightHalf)).toCharArray();
             joined = permutate(joined);
             roundKeys.put("key" + i, arrayToString(joined));
 
@@ -402,13 +402,13 @@ public class Main {
     // Method that will left rotate by int rotation
     public static char[] rotate(char[] halfKey, int rotation) {
         for (int i = 0; i < rotation; i++) {
-            char firstBit = halfKey[i];// Last bit which we will set to the last character after shifting
+            char firstBit = halfKey[0];// first bit which we will set to the last character after shifting
             for (int j = 0; j < halfKey.length; j++) {
-                if (i == halfKey.length - 1)
+                if (j == halfKey.length - 1)
                     continue;// halfkey[28] wil raise an error
-                halfKey[i] = halfKey[i + 1];// left shifting each bit by equating it to the bit after
+                halfKey[j] = halfKey[j + 1];// left shifting each bit by equating it to the bit after
             }
-            halfKey[halfKey.length - 1] = firstBit;// Equating last bit to the first one before shifting in
+            halfKey[halfKey.length-1] = firstBit;// Equating last bit to the first one before shifting in
             // the loop with index j
         }
         return halfKey;
