@@ -65,6 +65,12 @@ public class Main {
         System.out.println("Enter message to encrypt: (In Binary)");
         String messageString = input.nextLine();// The message in string format
 
+        if (messageString.length() < 64){ // if message is < 64 padding zeros to the left to make sure it is 64-bit
+                messageString = String.format("%64s", messageString).replace(" ", "0");
+    
+            } else if (messageString.length() > 64){ // if message is > 64 split into blocks of 64-bit
+        }
+
         System.out.println("Enter the key (In Binary 64-bit)");
         String keyString = input.nextLine();// String that will hold the key
         while (keyString.length() != 64) {// Exception handling for key size larger than 64
@@ -271,8 +277,9 @@ public class Main {
         }
 
         // Swapping Again
+        char[] temp = messageLeftHalf;
         messageLeftHalf = messageRightHalf;
-        messageRightHalf = messageLeftHalf;
+        messageRightHalf = temp;
 
         char[] finaloutput = (arrayToString(messageLeftHalf) + "" + arrayToString(messageRightHalf))
                 .toCharArray();
