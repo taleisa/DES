@@ -176,6 +176,20 @@ public class Main {
 
         System.out.println("Step 6 (P-Box): Input: (32-bit S-Box output: " + sBoxOutput + " ) Output: (32-bit P-Box output) " + Arrays.toString(pBoxOutputArray));
 
+        char[] finalPermutation = //Permutating based on the final Permutation fixed matrix (64-bit).
+                {
+                        messageArray[39], messageArray[7], messageArray[47], messageArray[15], messageArray[55], messageArray[23], messageArray[63], messageArray[31]
+                        , messageArray[38], messageArray[6], messageArray[46], messageArray[14], messageArray[54], messageArray[22], messageArray[62], messageArray[30]
+                        , messageArray[37], messageArray[5], messageArray[45], messageArray[13], messageArray[53], messageArray[21], messageArray[61], messageArray[29]
+                        , messageArray[36], messageArray[4], messageArray[44], messageArray[12], messageArray[52], messageArray[20], messageArray[60], messageArray[28]
+                        , messageArray[35], messageArray[3], messageArray[43], messageArray[11], messageArray[51], messageArray[19], messageArray[59], messageArray[27]
+                        , messageArray[34], messageArray[2], messageArray[42], messageArray[10], messageArray[50], messageArray[18], messageArray[58], messageArray[26]
+                        , messageArray[33], messageArray[1], messageArray[41], messageArray[9], messageArray[49], messageArray[17], messageArray[57], messageArray[25]
+                        , messageArray[32], messageArray[0], messageArray[40], messageArray[8], messageArray[48], messageArray[16], messageArray[56], messageArray[24]};
+
+        System.out.println("Last Step (Inverse Initial Permutation): Input: (64-bit final output: " + Arrays.toString(pBoxOutputArray) + " ) Output: (64-bit permutated cipher block) " + Arrays.toString(finalPermutation));
+
+
     }
     public static HashMap<String,String> keyExpansion(char[] keyArray){
         HashMap<String,String> roundKeys;
