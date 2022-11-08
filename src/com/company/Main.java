@@ -63,8 +63,12 @@ public class Main {
         };
         Scanner input = new Scanner(System.in);
         System.out.println("Enter message to encrypt: (In Binary)");
+        int chunkSize = 64;
         String messageString = input.nextLine();// The message in string format
-
+        String[] messageBlocks = messageString.split("(?<=\\G.{" + chunkSize + "})");
+        for(String s:messageBlocks){
+                System.out.println(s);
+        }
         if (messageString.length() < 64){ // if message is < 64 padding zeros to the left to make sure it is 64-bit
                 messageString = String.format("%64s", messageString).replace(" ", "0");
     
