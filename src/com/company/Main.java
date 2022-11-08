@@ -232,9 +232,12 @@ public class Main {
     //Method that will left rotate by int rotation
     public static char[] rotate(char[] halfKey, int rotation ){
         for(int i=0;i<rotation;i++){
-            char temp = halfKey[i];
-            halfKey[i] = halfKey[halfKey.length-(i+1)];
-            halfKey[halfKey.length-(i+1)] = temp;
+                char firstBit = halfKey[i];// Last bit which we will set to the last character after shifting
+                for(int j=0;j<halfKey.length;j++){
+                        if(i==halfKey.length-1)continue;// halfkey[28] wil raise an error
+                        halfKey[i] = halfKey[i+1];// left shifting each bit by equating it to the bit after
+                }
+                halfKey[halfKey.length-1]=firstBit;// Equating last bit to the first one before shifting in the loop with index j
         }
         return halfKey;
 
