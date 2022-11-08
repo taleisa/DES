@@ -73,6 +73,7 @@ public class Main {
                         keyString = input.nextLine();
                 }
                 for (int x = 0; x < messageBlocks.length; x++) {
+                        System.out.println("\n\n---------------------------------------------------------------- Message Block "+(x+1)+ " ----------------------------------------------------------------");
                         messageString = messageBlocks[x];
                         if (messageString.length() < 64) { // if message is < 64 padding zeros to the left to make sure
                                 // it is 64-bit
@@ -147,13 +148,14 @@ public class Main {
                                                         messageAfterIP[59], messageAfterIP[60], messageAfterIP[61],
                                                         messageAfterIP[62], messageAfterIP[63] };
 
-                        System.out.println("Step 1 (Initial Permutation): Input: (Original plaintext block: "
-                                        + arrayToString(messageArray) + " ) Output: (64-bit permutated text block) "
-                                        + arrayToString(messageAfterIP) + "Left-Half: " + arrayToString(messageLeftHalf)
-                                        + " Right-Half: "
+                        System.out.println("\nStep 1 (Initial Permutation): \nInput: (Original plaintext block: "
+                                        + arrayToString(messageArray) + " ) \nOutput: (64-bit permutated text block) "
+                                        + arrayToString(messageAfterIP) + "\nLeft-Half: " + arrayToString(messageLeftHalf)
+                                        + "\nRight-Half: "
                                         + arrayToString(messageRightHalf));
 
                         for (int i = 0; i < 16; i++) {
+                                System.out.println("\n\n--------------------------------- Round "+(i+1)+ " ---------------------------------");
                                 char[] messageAfterEP = // Permutating based on the Expansion Permutation fixed matrix
                                                         // (32-bit to 48-bit).
                                                 {
@@ -190,8 +192,8 @@ public class Main {
                                                                 messageRightHalf[30], messageRightHalf[31],
                                                                 messageRightHalf[0] };
 
-                                System.out.println("Step 2 (Expansion Permutation): Input: (32-bit Right-Half: "
-                                                + arrayToString(messageRightHalf) + " ) Output: (48-bit expanded block)"
+                                System.out.println("\nStep 2 (Expansion Permutation): \nInput: (32-bit Right-Half: "
+                                                + arrayToString(messageRightHalf) + " ) \nOutput: (48-bit expanded block)"
                                                 + arrayToString(messageAfterEP));
 
                                 // XORing 48-bit output from the expansion permutation with 48-bit Round key
@@ -201,11 +203,11 @@ public class Main {
                                 System.out.println(roundkeys.get("key" + i));
 
                                 System.out.println(
-                                                "Step 3 (Round Key Addition): Input: (48-bit output from the expansion permutation: "
+                                                "\nStep 3 (Round Key Addition): \nInput: (48-bit output from the expansion permutation: "
                                                                 + arrayToString(messageAfterEP)
-                                                                + " , 48-bit Round key: "
+                                                                + " , \n48-bit Round key: "
                                                                 + roundkeys.get("key" + i)
-                                                                + " ) Output: " + XORwithKey);
+                                                                + " ) \nOutput: " + XORwithKey);
 
                                 char[] roundKeyAdditionArray = XORwithKey.toCharArray();// Converting string to array to
                                                                                         // easily manipulate
@@ -309,7 +311,7 @@ public class Main {
                                                                 .replace(" ", "0");
 
                                 System.out.println(
-                                                "Step 4 (S-Box): Input: (8 6-bit values from the round key addition: \n"
+                                                "\nStep 4 (S-Box): \nInput: (8 6-bit values from the round key addition: \n"
                                                                 + arrayToString(toSBoxOne) + "\n"
                                                                 + arrayToString(toSBoxTwo) + "\n"
                                                                 + arrayToString(toSBoxThree) + "\n"
@@ -352,8 +354,8 @@ public class Main {
                                                                 sBoxOutputArray[10],
                                                                 sBoxOutputArray[3], sBoxOutputArray[24] };
 
-                                System.out.println("Step 5 (P-Box): Input: (32-bit S-Box output: " + sBoxOutput
-                                                + " ) Output: (32-bit P-Box output) " + arrayToString(pBoxOutputArray));
+                                System.out.println("\nStep 5 (P-Box): \nInput: (32-bit S-Box output: " + sBoxOutput
+                                                + " ) \nOutput: (32-bit P-Box output) " + arrayToString(pBoxOutputArray));
 
                                 // Output of step 5 XOR it with Left-Half
 
@@ -361,10 +363,10 @@ public class Main {
                                                 arrayToString(messageLeftHalf));
 
                                 System.out.println(
-                                                "Step 6 (XOR): Input: (32-bit output from the P-Box: "
-                                                                + arrayToString(pBoxOutputArray) + " ), (Left-Half: "
+                                                "\nStep 6 (XOR): \nInput: (32-bit output from the P-Box: "
+                                                                + arrayToString(pBoxOutputArray) + " ), \n(Left-Half: "
                                                                 + arrayToString(messageLeftHalf)
-                                                                + " ) Output: (Afer XORing: "
+                                                                + " ) \nOutput: (Afer XORing: "
                                                                 + XORwithLeftHalf);
 
                                 // Swapping (New Left = Old Right, New Right = XOR output)
@@ -416,9 +418,9 @@ public class Main {
                                                         finaloutput[48], finaloutput[16], finaloutput[56],
                                                         finaloutput[24] };
 
-                        System.out.println("Last Step (Inverse Initial Permutation): Input: (64-bit final output: "
-                                        + arrayToString(finaloutput) + " ) Output: (64-bit permutated cipher block) "
-                                        + arrayToString(finalPermutation));
+                        System.out.println("\n\nLast Step (Inverse Initial Permutation): \nInput: (64-bit final output: "
+                                        + arrayToString(finaloutput) + " ) \nOutput: (64-bit permutated cipher block) "
+                                        + arrayToString(finalPermutation)+"\n\n");
                 }
 
         }
