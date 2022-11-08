@@ -122,158 +122,213 @@ public class Main {
 
                 System.out.println("Step 1 (Initial Permutation): Input: (Original plaintext block: "
                                 + Arrays.toString(messageArray) + " ) Output: (64-bit permutated text block) "
-                                + Arrays.toString(messageAfterIP) + "Left-Half: " + messageLeftHalf + " Right-Half: "
-                                + messageRightHalf);
+                                + Arrays.toString(messageAfterIP) + "Left-Half: " + Arrays.toString(messageLeftHalf) + " Right-Half: "
+                                + Arrays.toString(messageRightHalf));
 
-                char[] messageAfterEP = // Permutating based on the Expansion Permutation fixed matrix (32-bit to
+                for (int i = 0; i < 16; i++) {
+                        char[] messageAfterEP = // Permutating based on the Expansion Permutation fixed matrix (32-bit
+                                                // to
                                         // 48-bit).
-                                {
-                                                messageRightHalf[31], messageRightHalf[0], messageRightHalf[1],
-                                                messageRightHalf[2], messageRightHalf[3], messageRightHalf[4],
-                                                messageRightHalf[3], messageRightHalf[4], messageRightHalf[5],
-                                                messageRightHalf[6], messageRightHalf[7], messageRightHalf[8],
-                                                messageRightHalf[7], messageRightHalf[8], messageRightHalf[9],
-                                                messageRightHalf[10], messageRightHalf[11], messageRightHalf[12],
-                                                messageRightHalf[11], messageRightHalf[12], messageRightHalf[13],
-                                                messageRightHalf[14], messageRightHalf[15], messageRightHalf[16],
-                                                messageRightHalf[15], messageRightHalf[16], messageRightHalf[17],
-                                                messageRightHalf[18], messageRightHalf[19], messageRightHalf[20],
-                                                messageRightHalf[19], messageRightHalf[20], messageRightHalf[21],
-                                                messageRightHalf[22], messageRightHalf[23], messageRightHalf[24],
-                                                messageRightHalf[23], messageRightHalf[24], messageRightHalf[25],
-                                                messageRightHalf[26], messageRightHalf[27], messageRightHalf[28],
-                                                messageRightHalf[27], messageRightHalf[28], messageRightHalf[29],
-                                                messageRightHalf[30], messageRightHalf[31], messageRightHalf[0] };
+                                        {
+                                                        messageRightHalf[31], messageRightHalf[0], messageRightHalf[1],
+                                                        messageRightHalf[2], messageRightHalf[3], messageRightHalf[4],
+                                                        messageRightHalf[3], messageRightHalf[4], messageRightHalf[5],
+                                                        messageRightHalf[6], messageRightHalf[7], messageRightHalf[8],
+                                                        messageRightHalf[7], messageRightHalf[8], messageRightHalf[9],
+                                                        messageRightHalf[10], messageRightHalf[11],
+                                                        messageRightHalf[12],
+                                                        messageRightHalf[11], messageRightHalf[12],
+                                                        messageRightHalf[13],
+                                                        messageRightHalf[14], messageRightHalf[15],
+                                                        messageRightHalf[16],
+                                                        messageRightHalf[15], messageRightHalf[16],
+                                                        messageRightHalf[17],
+                                                        messageRightHalf[18], messageRightHalf[19],
+                                                        messageRightHalf[20],
+                                                        messageRightHalf[19], messageRightHalf[20],
+                                                        messageRightHalf[21],
+                                                        messageRightHalf[22], messageRightHalf[23],
+                                                        messageRightHalf[24],
+                                                        messageRightHalf[23], messageRightHalf[24],
+                                                        messageRightHalf[25],
+                                                        messageRightHalf[26], messageRightHalf[27],
+                                                        messageRightHalf[28],
+                                                        messageRightHalf[27], messageRightHalf[28],
+                                                        messageRightHalf[29],
+                                                        messageRightHalf[30], messageRightHalf[31],
+                                                        messageRightHalf[0] };
 
-                System.out.println("Step 2 (Expansion Permutation): Input: (64-bit permutated text block: "
-                                + Arrays.toString(messageAfterIP) + " ) Left-Half: " + messageLeftHalf + " Right-Half: "
-                                + messageRightHalf + " Output: " + messageAfterEP);
+                        System.out.println("Step 2 (Expansion Permutation): Input: (32-bit Right-Half: "
+                                        + Arrays.toString(messageRightHalf) + " ) Output: (48-bit expanded block)" + Arrays.toString(messageAfterEP));
 
-                // XORing 48-bit output from the expansion permutation with 48-bit Round key
-                // given from user using ^ operator. before XOR we converted Array to String
-                // then to int, after XOR we convert it back to string.
-                String XORwithKey = String.valueOf(Integer.parseInt(Arrays.toString(messageAfterEP))
-                                ^ Integer.parseInt(Arrays.toString(keyArray)));
+                        // XORing 48-bit output from the expansion permutation with 48-bit Round key
+                        // given from user using ^ operator. before XOR we converted Array to String
+                        // then to int, after XOR we convert it back to string.
+                        String XORwithKey = String.valueOf(Integer.parseInt(Arrays.toString(messageAfterEP))
+                                        ^ Integer.parseInt(roundkeys.get("key" + i)));
 
-                System.out.println("Step 3 (Round Key Addition): Input: (48-bit output from the expansion permutation: "
-                                + Arrays.toString(messageAfterEP) + " , 48-bit Round key: " + Arrays.toString(keyArray)
-                                + " ) Output: " + XORwithKey);
+                        System.out.println(
+                                        "Step 3 (Round Key Addition): Input: (48-bit output from the expansion permutation: "
+                                                        + Arrays.toString(messageAfterEP) + " , 48-bit Round key: "
+                                                        + roundkeys.get("key" + i)
+                                                        + " ) Output: " + XORwithKey);
 
-                char[] roundKeyAdditionArray = XORwithKey.toCharArray();// Converting string to array to easily
-                                                                        // manipulate
+                        char[] roundKeyAdditionArray = XORwithKey.toCharArray();// Converting string to array to easily
+                        // manipulate
 
-                // Declaring the 8 6-bit values taken from round key addition.
-                char[] toSBoxOne = { roundKeyAdditionArray[0], roundKeyAdditionArray[1], roundKeyAdditionArray[2],
-                                roundKeyAdditionArray[3], roundKeyAdditionArray[4], roundKeyAdditionArray[5] };
-                char[] toSBoxTwo = { roundKeyAdditionArray[6], roundKeyAdditionArray[7], roundKeyAdditionArray[8],
-                                roundKeyAdditionArray[9], roundKeyAdditionArray[10], roundKeyAdditionArray[11] };
-                char[] toSBoxThree = { roundKeyAdditionArray[12], roundKeyAdditionArray[13], roundKeyAdditionArray[14],
-                                roundKeyAdditionArray[15], roundKeyAdditionArray[16], roundKeyAdditionArray[17] };
-                char[] toSBoxFour = { roundKeyAdditionArray[18], roundKeyAdditionArray[19], roundKeyAdditionArray[20],
-                                roundKeyAdditionArray[21], roundKeyAdditionArray[22], roundKeyAdditionArray[23] };
-                char[] toSBoxFive = { roundKeyAdditionArray[24], roundKeyAdditionArray[25], roundKeyAdditionArray[26],
-                                roundKeyAdditionArray[27], roundKeyAdditionArray[28], roundKeyAdditionArray[29] };
-                char[] toSBoxSix = { roundKeyAdditionArray[30], roundKeyAdditionArray[31], roundKeyAdditionArray[32],
-                                roundKeyAdditionArray[33], roundKeyAdditionArray[34], roundKeyAdditionArray[35] };
-                char[] toSBoxSeven = { roundKeyAdditionArray[36], roundKeyAdditionArray[37], roundKeyAdditionArray[38],
-                                roundKeyAdditionArray[39], roundKeyAdditionArray[40], roundKeyAdditionArray[41] };
-                char[] toSBoxEight = { roundKeyAdditionArray[42], roundKeyAdditionArray[43], roundKeyAdditionArray[44],
-                                roundKeyAdditionArray[45], roundKeyAdditionArray[46], roundKeyAdditionArray[47] };
+                        // Declaring the 8 6-bit values taken from round key addition.
+                        char[] toSBoxOne = { roundKeyAdditionArray[0], roundKeyAdditionArray[1],
+                                        roundKeyAdditionArray[2],
+                                        roundKeyAdditionArray[3], roundKeyAdditionArray[4], roundKeyAdditionArray[5] };
+                        char[] toSBoxTwo = { roundKeyAdditionArray[6], roundKeyAdditionArray[7],
+                                        roundKeyAdditionArray[8],
+                                        roundKeyAdditionArray[9], roundKeyAdditionArray[10],
+                                        roundKeyAdditionArray[11] };
+                        char[] toSBoxThree = { roundKeyAdditionArray[12], roundKeyAdditionArray[13],
+                                        roundKeyAdditionArray[14],
+                                        roundKeyAdditionArray[15], roundKeyAdditionArray[16],
+                                        roundKeyAdditionArray[17] };
+                        char[] toSBoxFour = { roundKeyAdditionArray[18], roundKeyAdditionArray[19],
+                                        roundKeyAdditionArray[20],
+                                        roundKeyAdditionArray[21], roundKeyAdditionArray[22],
+                                        roundKeyAdditionArray[23] };
+                        char[] toSBoxFive = { roundKeyAdditionArray[24], roundKeyAdditionArray[25],
+                                        roundKeyAdditionArray[26],
+                                        roundKeyAdditionArray[27], roundKeyAdditionArray[28],
+                                        roundKeyAdditionArray[29] };
+                        char[] toSBoxSix = { roundKeyAdditionArray[30], roundKeyAdditionArray[31],
+                                        roundKeyAdditionArray[32],
+                                        roundKeyAdditionArray[33], roundKeyAdditionArray[34],
+                                        roundKeyAdditionArray[35] };
+                        char[] toSBoxSeven = { roundKeyAdditionArray[36], roundKeyAdditionArray[37],
+                                        roundKeyAdditionArray[38],
+                                        roundKeyAdditionArray[39], roundKeyAdditionArray[40],
+                                        roundKeyAdditionArray[41] };
+                        char[] toSBoxEight = { roundKeyAdditionArray[42], roundKeyAdditionArray[43],
+                                        roundKeyAdditionArray[44],
+                                        roundKeyAdditionArray[45], roundKeyAdditionArray[46],
+                                        roundKeyAdditionArray[47] };
 
-                System.out.println(
-                                "Step 4 (Sending 6 bits to the 8 S-boxes): Input: (48-bit output from the round key addition: "
-                                                + Arrays.toString(messageAfterEP) + " ) Output: "
-                                                + Arrays.toString(toSBoxOne) + "\n" + Arrays.toString(toSBoxTwo) + "\n"
-                                                + Arrays.toString(toSBoxThree) + "\n" + Arrays.toString(toSBoxFour)
-                                                + "\n"
-                                                + Arrays.toString(toSBoxFive) + "\n" + Arrays.toString(toSBoxSix) + "\n"
-                                                + Arrays.toString(toSBoxSeven) + "\n" + Arrays.toString(toSBoxEight)
-                                                + "\n");
+                        // In each of the 8 6-bit value, getting the column by converting bits at index
+                        // 0 and 5 to int, getting the row by converting bits at index 1,2,3,4 to int.
+                        // using this column and row we will get a decimal value from the s-box.
+                        int decimalOne = sBoxOne[Integer.parseInt(
+                                        toSBoxOne[1] + "" + toSBoxOne[2] + "" + toSBoxOne[3] + "" + toSBoxOne[4],
+                                        4)][Integer
+                                                        .parseInt(toSBoxOne[0] + "" + toSBoxOne[5], 4)];
+                        int decimalTwo = sBoxTwo[Integer.parseInt(
+                                        toSBoxTwo[1] + "" + toSBoxTwo[2] + "" + toSBoxTwo[3] + "" + toSBoxTwo[4],
+                                        4)][Integer
+                                                        .parseInt(toSBoxTwo[0] + "" + toSBoxTwo[5], 4)];
+                        int decimalThree = sBoxThree[Integer.parseInt(
+                                        toSBoxThree[1] + "" + toSBoxThree[2] + "" + toSBoxThree[3] + ""
+                                                        + toSBoxThree[4],
+                                        4)][Integer.parseInt(toSBoxThree[0] + "" + toSBoxThree[5], 4)];
+                        int decimalFour = sBoxFour[Integer.parseInt(
+                                        toSBoxFour[1] + "" + toSBoxFour[2] + "" + toSBoxFour[3] + "" + toSBoxFour[4],
+                                        4)][Integer.parseInt(toSBoxFour[0] + "" + toSBoxFour[5], 4)];
+                        int decimalFive = sBoxFive[Integer.parseInt(
+                                        toSBoxFive[1] + "" + toSBoxFive[2] + "" + toSBoxFive[3] + "" + toSBoxFive[4],
+                                        4)][Integer.parseInt(toSBoxFive[0] + "" + toSBoxFive[5], 4)];
+                        int decimalSix = sBoxSix[Integer.parseInt(
+                                        toSBoxSix[1] + "" + toSBoxSix[2] + "" + toSBoxSix[3] + "" + toSBoxSix[4],
+                                        4)][Integer
+                                                        .parseInt(toSBoxSix[0] + "" + toSBoxSix[5], 4)];
+                        int decimalSeven = sBoxSeven[Integer.parseInt(
+                                        toSBoxSeven[1] + "" + toSBoxSeven[2] + "" + toSBoxSeven[3] + ""
+                                                        + toSBoxSeven[4],
+                                        4)][Integer.parseInt(toSBoxSeven[0] + "" + toSBoxSeven[5], 4)];
+                        int decimalEight = sBoxEight[Integer.parseInt(
+                                        toSBoxEight[1] + "" + toSBoxEight[2] + "" + toSBoxEight[3] + ""
+                                                        + toSBoxEight[4],
+                                        4)][Integer.parseInt(toSBoxEight[0] + "" + toSBoxEight[5], 4)];
 
-                // In each of the 8 6-bit value, getting the column by converting bits at index
-                // 0 and 5 to int, getting the row by converting bits at index 1,2,3,4 to int.
-                // using this column and row we will get a decimal value from the s-box.
-                int decimalOne = sBoxOne[Integer.parseInt(
-                                toSBoxOne[1] + "" + toSBoxOne[2] + "" + toSBoxOne[3] + "" + toSBoxOne[4], 4)][Integer
-                                                .parseInt(toSBoxOne[0] + "" + toSBoxOne[5], 4)];
-                int decimalTwo = sBoxTwo[Integer.parseInt(
-                                toSBoxTwo[1] + "" + toSBoxTwo[2] + "" + toSBoxTwo[3] + "" + toSBoxTwo[4], 4)][Integer
-                                                .parseInt(toSBoxTwo[0] + "" + toSBoxTwo[5], 4)];
-                int decimalThree = sBoxThree[Integer.parseInt(
-                                toSBoxThree[1] + "" + toSBoxThree[2] + "" + toSBoxThree[3] + "" + toSBoxThree[4],
-                                4)][Integer.parseInt(toSBoxThree[0] + "" + toSBoxThree[5], 4)];
-                int decimalFour = sBoxFour[Integer.parseInt(
-                                toSBoxFour[1] + "" + toSBoxFour[2] + "" + toSBoxFour[3] + "" + toSBoxFour[4],
-                                4)][Integer.parseInt(toSBoxFour[0] + "" + toSBoxFour[5], 4)];
-                int decimalFive = sBoxFive[Integer.parseInt(
-                                toSBoxFive[1] + "" + toSBoxFive[2] + "" + toSBoxFive[3] + "" + toSBoxFive[4],
-                                4)][Integer.parseInt(toSBoxFive[0] + "" + toSBoxFive[5], 4)];
-                int decimalSix = sBoxSix[Integer.parseInt(
-                                toSBoxSix[1] + "" + toSBoxSix[2] + "" + toSBoxSix[3] + "" + toSBoxSix[4], 4)][Integer
-                                                .parseInt(toSBoxSix[0] + "" + toSBoxSix[5], 4)];
-                int decimalSeven = sBoxSeven[Integer.parseInt(
-                                toSBoxSeven[1] + "" + toSBoxSeven[2] + "" + toSBoxSeven[3] + "" + toSBoxSeven[4],
-                                4)][Integer.parseInt(toSBoxSeven[0] + "" + toSBoxSeven[5], 4)];
-                int decimalEight = sBoxEight[Integer.parseInt(
-                                toSBoxEight[1] + "" + toSBoxEight[2] + "" + toSBoxEight[3] + "" + toSBoxEight[4],
-                                4)][Integer.parseInt(toSBoxEight[0] + "" + toSBoxEight[5], 4)];
+                        // converting the 8 decimal into 8 binary values and putting it in one string
+                        String sBoxOutput = Integer.toBinaryString(decimalOne) + "" + Integer.toBinaryString(decimalTwo)
+                                        + ""
+                                        + Integer.toBinaryString(decimalThree) + ""
+                                        + Integer.toBinaryString(decimalFour) + "" +
+                                        Integer.toBinaryString(decimalFive) + "" + Integer.toBinaryString(decimalSix)
+                                        + ""
+                                        + Integer.toBinaryString(decimalSeven) + ""
+                                        + Integer.toBinaryString(decimalEight);
 
-                // converting the 8 decimal into 8 binary values and putting it in one string
-                String sBoxOutput = Integer.toBinaryString(decimalOne) + "" + Integer.toBinaryString(decimalTwo) + ""
-                                + Integer.toBinaryString(decimalThree) + "" + Integer.toBinaryString(decimalFour) + "" +
-                                Integer.toBinaryString(decimalFive) + "" + Integer.toBinaryString(decimalSix) + ""
-                                + Integer.toBinaryString(decimalSeven) + "" + Integer.toBinaryString(decimalEight);
+                        System.out.println("Step 4 (S-Box): Input: (8 6-bit values from the round key addition: "
+                                        + Arrays.toString(toSBoxOne) + "\n" + Arrays.toString(toSBoxTwo) + "\n"
+                                        + Arrays.toString(toSBoxThree) + "\n" + Arrays.toString(toSBoxFour) + "\n"
+                                        + Arrays.toString(toSBoxFive) + "\n" + Arrays.toString(toSBoxSix) + "\n"
+                                        + Arrays.toString(toSBoxSeven) + "\n" + Arrays.toString(toSBoxEight)
+                                        + "\n ) Output: "
+                                        + decimalOne + " " + decimalTwo + " " + decimalThree + " " + decimalFour + " "
+                                        + decimalFive + " " + decimalSix + " " + decimalSeven + " " + decimalEight
+                                        + " \n In Binary (32-bit): " + sBoxOutput);
 
-                System.out.println("Step 5 (S-Box): Input: (8 6-bit values from the round key addition: "
-                                + Arrays.toString(toSBoxOne) + "\n" + Arrays.toString(toSBoxTwo) + "\n"
-                                + Arrays.toString(toSBoxThree) + "\n" + Arrays.toString(toSBoxFour) + "\n"
-                                + Arrays.toString(toSBoxFive) + "\n" + Arrays.toString(toSBoxSix) + "\n"
-                                + Arrays.toString(toSBoxSeven) + "\n" + Arrays.toString(toSBoxEight) + "\n ) Output: "
-                                + decimalOne + " " + decimalTwo + " " + decimalThree + " " + decimalFour + " "
-                                + decimalFive + " " + decimalSix + " " + decimalSeven + " " + decimalEight
-                                + " \n In Binary (32-bit): " + sBoxOutput);
+                        char[] sBoxOutputArray = sBoxOutput.toCharArray();// Converting string to array to easily
+                                                                          // manipulate
 
-                char[] sBoxOutputArray = sBoxOutput.toCharArray();// Converting string to array to easily manipulate
+                        char[] pBoxOutputArray = // Permutating based on the P-Box fixed matrix (32-bit).
+                                        {
+                                                        sBoxOutputArray[15], sBoxOutputArray[6], sBoxOutputArray[19],
+                                                        sBoxOutputArray[20], sBoxOutputArray[28], sBoxOutputArray[11],
+                                                        sBoxOutputArray[27], sBoxOutputArray[16], sBoxOutputArray[0],
+                                                        sBoxOutputArray[14], sBoxOutputArray[22], sBoxOutputArray[25],
+                                                        sBoxOutputArray[4], sBoxOutputArray[17], sBoxOutputArray[30],
+                                                        sBoxOutputArray[9], sBoxOutputArray[1], sBoxOutputArray[7],
+                                                        sBoxOutputArray[23], sBoxOutputArray[13], sBoxOutputArray[31],
+                                                        sBoxOutputArray[26], sBoxOutputArray[2], sBoxOutputArray[8],
+                                                        sBoxOutputArray[18], sBoxOutputArray[12], sBoxOutputArray[29],
+                                                        sBoxOutputArray[5], sBoxOutputArray[21], sBoxOutputArray[10],
+                                                        sBoxOutputArray[3], sBoxOutputArray[24] };
 
-                char[] pBoxOutputArray = // Permutating based on the P-Box fixed matrix (32-bit).
-                                {
-                                                sBoxOutputArray[15], sBoxOutputArray[6], sBoxOutputArray[19],
-                                                sBoxOutputArray[20], sBoxOutputArray[28], sBoxOutputArray[11],
-                                                sBoxOutputArray[27], sBoxOutputArray[16], sBoxOutputArray[0],
-                                                sBoxOutputArray[14], sBoxOutputArray[22], sBoxOutputArray[25],
-                                                sBoxOutputArray[4], sBoxOutputArray[17], sBoxOutputArray[30],
-                                                sBoxOutputArray[9], sBoxOutputArray[1], sBoxOutputArray[7],
-                                                sBoxOutputArray[23], sBoxOutputArray[13], sBoxOutputArray[31],
-                                                sBoxOutputArray[26], sBoxOutputArray[2], sBoxOutputArray[8],
-                                                sBoxOutputArray[18], sBoxOutputArray[12], sBoxOutputArray[29],
-                                                sBoxOutputArray[5], sBoxOutputArray[21], sBoxOutputArray[10],
-                                                sBoxOutputArray[3], sBoxOutputArray[24] };
+                        System.out.println("Step 5 (P-Box): Input: (32-bit S-Box output: " + sBoxOutput
+                                        + " ) Output: (32-bit P-Box output) " + Arrays.toString(pBoxOutputArray));
 
-                System.out.println("Step 6 (P-Box): Input: (32-bit S-Box output: " + sBoxOutput
-                                + " ) Output: (32-bit P-Box output) " + Arrays.toString(pBoxOutputArray));
+                        // Output of step 5 XOR it with Left-Half
+
+                        String XORwithLeftHalf = String.valueOf(Integer.parseInt(Arrays.toString(pBoxOutputArray))
+                                        ^ Integer.parseInt(Arrays.toString(messageLeftHalf)));
+
+                        System.out.println(
+                                        "Step 6 (XOR): Input: (32-bit output from the P-Box: "
+                                                        + Arrays.toString(pBoxOutputArray) + " ), (Left-Half: "
+                                                        + Arrays.toString(messageLeftHalf) + " ) Output: (Afer XORing: "
+                                                        + XORwithLeftHalf);
+
+                        // Swapping (New Left = Old Right, New Right = XOR output)
+                        messageLeftHalf = messageRightHalf;
+                        messageRightHalf = XORwithLeftHalf.toCharArray();
+
+                }
+
+                // Swapping Again
+                messageLeftHalf = messageRightHalf;
+                messageRightHalf = messageLeftHalf;
+
+                char[] finaloutput = (Arrays.toString(messageLeftHalf) + "" + Arrays.toString(messageRightHalf))
+                                .toCharArray();
 
                 char[] finalPermutation = // Permutating based on the final Permutation fixed matrix (64-bit).
                                 {
-                                                messageArray[39], messageArray[7], messageArray[47], messageArray[15],
-                                                messageArray[55], messageArray[23], messageArray[63], messageArray[31],
-                                                messageArray[38], messageArray[6], messageArray[46], messageArray[14],
-                                                messageArray[54], messageArray[22], messageArray[62], messageArray[30],
-                                                messageArray[37], messageArray[5], messageArray[45], messageArray[13],
-                                                messageArray[53], messageArray[21], messageArray[61], messageArray[29],
-                                                messageArray[36], messageArray[4], messageArray[44], messageArray[12],
-                                                messageArray[52], messageArray[20], messageArray[60], messageArray[28],
-                                                messageArray[35], messageArray[3], messageArray[43], messageArray[11],
-                                                messageArray[51], messageArray[19], messageArray[59], messageArray[27],
-                                                messageArray[34], messageArray[2], messageArray[42], messageArray[10],
-                                                messageArray[50], messageArray[18], messageArray[58], messageArray[26],
-                                                messageArray[33], messageArray[1], messageArray[41], messageArray[9],
-                                                messageArray[49], messageArray[17], messageArray[57], messageArray[25],
-                                                messageArray[32], messageArray[0], messageArray[40], messageArray[8],
-                                                messageArray[48], messageArray[16], messageArray[56],
-                                                messageArray[24] };
+                                                finaloutput[39], finaloutput[7], finaloutput[47], finaloutput[15],
+                                                finaloutput[55], finaloutput[23], finaloutput[63], finaloutput[31],
+                                                finaloutput[38], finaloutput[6], finaloutput[46], finaloutput[14],
+                                                finaloutput[54], finaloutput[22], finaloutput[62], finaloutput[30],
+                                                finaloutput[37], finaloutput[5], finaloutput[45], finaloutput[13],
+                                                finaloutput[53], finaloutput[21], finaloutput[61], finaloutput[29],
+                                                finaloutput[36], finaloutput[4], finaloutput[44], finaloutput[12],
+                                                finaloutput[52], finaloutput[20], finaloutput[60], finaloutput[28],
+                                                finaloutput[35], finaloutput[3], finaloutput[43], finaloutput[11],
+                                                finaloutput[51], finaloutput[19], finaloutput[59], finaloutput[27],
+                                                finaloutput[34], finaloutput[2], finaloutput[42], finaloutput[10],
+                                                finaloutput[50], finaloutput[18], finaloutput[58], finaloutput[26],
+                                                finaloutput[33], finaloutput[1], finaloutput[41], finaloutput[9],
+                                                finaloutput[49], finaloutput[17], finaloutput[57], finaloutput[25],
+                                                finaloutput[32], finaloutput[0], finaloutput[40], finaloutput[8],
+                                                finaloutput[48], finaloutput[16], finaloutput[56],
+                                                finaloutput[24] };
 
                 System.out.println("Last Step (Inverse Initial Permutation): Input: (64-bit final output: "
-                                + Arrays.toString(pBoxOutputArray) + " ) Output: (64-bit permutated cipher block) "
+                                + Arrays.toString(finaloutput) + " ) Output: (64-bit permutated cipher block) "
                                 + Arrays.toString(finalPermutation));
 
         }
