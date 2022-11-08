@@ -92,6 +92,7 @@ public class Main {
                         messageArray[28], messageArray[20], messageArray[12], messageArray[4],
                         messageArray[62], messageArray[54], messageArray[46], messageArray[38],
                         messageArray[30], messageArray[22], messageArray[14], messageArray[6]};
+
         char[] messageLeftHalf = // Taking the left half (32-bit)
                 {
                         messageAfterIP[0], messageAfterIP[1], messageAfterIP[2],
@@ -126,9 +127,7 @@ public class Main {
                 + arrayToString(messageRightHalf));
 
         for (int i = 0; i < 16; i++) {
-            char[] messageAfterEP = // Permutating based on the Expansion Permutation fixed matrix (32-bit
-                    // to
-                    // 48-bit).
+            char[] messageAfterEP = // Permutating based on the Expansion Permutation fixed matrix (32-bit to 48-bit).
                     {
                             messageRightHalf[31], messageRightHalf[0], messageRightHalf[1],
                             messageRightHalf[2], messageRightHalf[3], messageRightHalf[4],
@@ -173,8 +172,7 @@ public class Main {
                             + roundkeys.get("key" + i)
                             + " ) Output: " + XORwithKey);
 
-            char[] roundKeyAdditionArray = XORwithKey.toCharArray();// Converting string to array to easily
-            // manipulate
+            char[] roundKeyAdditionArray = XORwithKey.toCharArray();// Converting string to array to easily manipulate
 
             // Declaring the 8 6-bit values taken from round key addition.
             char[] toSBoxOne = {roundKeyAdditionArray[0], roundKeyAdditionArray[1],
@@ -212,59 +210,30 @@ public class Main {
             // In each of the 8 6-bit value, getting the column by converting bits at index
             // 0 and 5 to int, getting the row by converting bits at index 1,2,3,4 to int.
             // using this column and row we will get a decimal value from the s-box.
-            int decimalOne = sBoxOne[Integer.parseInt(
-                    toSBoxOne[1] + "" + toSBoxOne[2] + "" + toSBoxOne[3] + "" + toSBoxOne[4],
-                    4)][Integer
-                    .parseInt(toSBoxOne[0] + "" + toSBoxOne[5], 4)];
-            int decimalTwo = sBoxTwo[Integer.parseInt(
-                    toSBoxTwo[1] + "" + toSBoxTwo[2] + "" + toSBoxTwo[3] + "" + toSBoxTwo[4],
-                    4)][Integer
-                    .parseInt(toSBoxTwo[0] + "" + toSBoxTwo[5], 4)];
-            int decimalThree = sBoxThree[Integer.parseInt(
-                    toSBoxThree[1] + "" + toSBoxThree[2] + "" + toSBoxThree[3] + ""
-                            + toSBoxThree[4],
-                    4)][Integer.parseInt(toSBoxThree[0] + "" + toSBoxThree[5], 4)];
-            int decimalFour = sBoxFour[Integer.parseInt(
-                    toSBoxFour[1] + "" + toSBoxFour[2] + "" + toSBoxFour[3] + "" + toSBoxFour[4],
-                    4)][Integer.parseInt(toSBoxFour[0] + "" + toSBoxFour[5], 4)];
-            int decimalFive = sBoxFive[Integer.parseInt(
-                    toSBoxFive[1] + "" + toSBoxFive[2] + "" + toSBoxFive[3] + "" + toSBoxFive[4],
-                    4)][Integer.parseInt(toSBoxFive[0] + "" + toSBoxFive[5], 4)];
-            int decimalSix = sBoxSix[Integer.parseInt(
-                    toSBoxSix[1] + "" + toSBoxSix[2] + "" + toSBoxSix[3] + "" + toSBoxSix[4],
-                    4)][Integer
-                    .parseInt(toSBoxSix[0] + "" + toSBoxSix[5], 4)];
-            int decimalSeven = sBoxSeven[Integer.parseInt(
-                    toSBoxSeven[1] + "" + toSBoxSeven[2] + "" + toSBoxSeven[3] + ""
-                            + toSBoxSeven[4],
-                    4)][Integer.parseInt(toSBoxSeven[0] + "" + toSBoxSeven[5], 4)];
-            int decimalEight = sBoxEight[Integer.parseInt(
-                    toSBoxEight[1] + "" + toSBoxEight[2] + "" + toSBoxEight[3] + ""
-                            + toSBoxEight[4],
-                    4)][Integer.parseInt(toSBoxEight[0] + "" + toSBoxEight[5], 4)];
+            int decimalOne = sBoxOne[Integer.parseInt(toSBoxOne[0] + "" + toSBoxOne[5], 2)][Integer.parseInt(toSBoxOne[1] + "" + toSBoxOne[2] + "" + toSBoxOne[3] + "" + toSBoxOne[4], 2)];
+            int decimalTwo = sBoxTwo[Integer.parseInt(toSBoxTwo[0] + "" + toSBoxTwo[5], 2)][Integer.parseInt(toSBoxTwo[1] + "" + toSBoxTwo[2] + "" + toSBoxTwo[3] + "" + toSBoxTwo[4], 2)];
+            int decimalThree = sBoxThree[Integer.parseInt(toSBoxThree[0] + "" + toSBoxThree[5], 2)][Integer.parseInt(toSBoxThree[1] + "" + toSBoxThree[2] + "" + toSBoxThree[3] + "" + toSBoxThree[4], 2)];
+            int decimalFour = sBoxFour[Integer.parseInt(toSBoxFour[0] + "" + toSBoxFour[5], 2)][Integer.parseInt(toSBoxFour[1] + "" + toSBoxFour[2] + "" + toSBoxFour[3] + "" + toSBoxFour[4], 2)];
+            int decimalFive = sBoxFive[Integer.parseInt(toSBoxFive[0] + "" + toSBoxFive[5], 2)][Integer.parseInt(toSBoxFive[1] + "" + toSBoxFive[2] + "" + toSBoxFive[3] + "" + toSBoxFive[4], 2)];
+            int decimalSix = sBoxSix[Integer.parseInt(toSBoxSix[0] + "" + toSBoxSix[5], 2)][Integer.parseInt(toSBoxSix[1] + "" + toSBoxSix[2] + "" + toSBoxSix[3] + "" + toSBoxSix[4], 2)];
+            int decimalSeven = sBoxSeven[Integer.parseInt(toSBoxSeven[0] + "" + toSBoxSeven[5], 2)][Integer.parseInt(toSBoxSeven[1] + "" + toSBoxSeven[2] + "" + toSBoxSeven[3] + "" + toSBoxSeven[4], 2)];
+            int decimalEight = sBoxEight[Integer.parseInt(toSBoxEight[0] + "" + toSBoxEight[5], 2)][Integer.parseInt(toSBoxEight[1] + "" + toSBoxEight[2] + "" + toSBoxEight[3] + "" + toSBoxEight[4], 2)];
 
-            // converting the 8 decimal into 8 binary values and putting it in one string
-            String sBoxOutput = Integer.toBinaryString(decimalOne) + "" + Integer.toBinaryString(decimalTwo)
-                    + ""
-                    + Integer.toBinaryString(decimalThree) + ""
-                    + Integer.toBinaryString(decimalFour) + "" +
-                    Integer.toBinaryString(decimalFive) + "" + Integer.toBinaryString(decimalSix)
-                    + ""
-                    + Integer.toBinaryString(decimalSeven) + ""
-                    + Integer.toBinaryString(decimalEight);
+            // converting the 8 decimal into 8 binary values and putting it in one string formatting it to make it 4 digits and replacing unoccupied digits with zeros  so that 2 will be 0010 not 10
+            String sBoxOutput = String.format("%4s", Integer.toBinaryString(decimalOne)).replace(" ", "0")+ "" + String.format("%4s", Integer.toBinaryString(decimalTwo)).replace(" ", "0") + "" + String.format("%4s", Integer.toBinaryString(decimalThree)).replace(" ", "0") + "" + String.format("%4s", Integer.toBinaryString(decimalFour)).replace(" ", "0")
+                    + "" + String.format("%4s", Integer.toBinaryString(decimalFive)).replace(" ", "0") + "" + String.format("%4s", Integer.toBinaryString(decimalSix)).replace(" ", "0") + "" + String.format("%4s", Integer.toBinaryString(decimalSeven)).replace(" ", "0") + "" + String.format("%4s", Integer.toBinaryString(decimalEight)).replace(" ", "0");
 
-            System.out.println("Step 4 (S-Box): Input: (8 6-bit values from the round key addition: "
+            System.out.println("Step 4 (S-Box): Input: (8 6-bit values from the round key addition: \n"
                     + arrayToString(toSBoxOne) + "\n" + arrayToString(toSBoxTwo) + "\n"
                     + arrayToString(toSBoxThree) + "\n" + arrayToString(toSBoxFour) + "\n"
                     + arrayToString(toSBoxFive) + "\n" + arrayToString(toSBoxSix) + "\n"
                     + arrayToString(toSBoxSeven) + "\n" + arrayToString(toSBoxEight)
-                    + "\n ) Output: "
+                    + ")\nOutput: "
                     + decimalOne + " " + decimalTwo + " " + decimalThree + " " + decimalFour + " "
                     + decimalFive + " " + decimalSix + " " + decimalSeven + " " + decimalEight
-                    + " \n In Binary (32-bit): " + sBoxOutput);
+                    + "\nIn Binary (32-bit): " + sBoxOutput);
 
-            char[] sBoxOutputArray = sBoxOutput.toCharArray();// Converting string to array to easily
-            // manipulate
+            char[] sBoxOutputArray = sBoxOutput.toCharArray();// Converting string to array to easily manipulate
 
             char[] pBoxOutputArray = // Permutating based on the P-Box fixed matrix (32-bit).
                     {
@@ -285,8 +254,7 @@ public class Main {
 
             // Output of step 5 XOR it with Left-Half
 
-            String XORwithLeftHalf = String.valueOf(Integer.parseInt(arrayToString(pBoxOutputArray))
-                    ^ Integer.parseInt(arrayToString(messageLeftHalf)));
+            String XORwithLeftHalf = xor(arrayToString(pBoxOutputArray),arrayToString(messageLeftHalf));
 
             System.out.println(
                     "Step 6 (XOR): Input: (32-bit output from the P-Box: "
@@ -375,14 +343,10 @@ public class Main {
 
     public static HashMap<String, String> splitAndJoin(char[] keyArray) {
         HashMap<String, String> roundKeys = new HashMap<>();
-        char[] leftHalf = Arrays.copyOfRange(keyArray, 0, keyArray.length / 2);// The left half also known
-        // as C0
-        char[] rightHalf = Arrays.copyOfRange(keyArray, keyArray.length / 2, keyArray.length);// The right
-        // half also
-        // known as D0
+        char[] leftHalf = Arrays.copyOfRange(keyArray, 0, keyArray.length / 2);// The left half also known as C0
+        char[] rightHalf = Arrays.copyOfRange(keyArray, keyArray.length / 2, keyArray.length);// The right half also known as D0
         for (int i = 0; i < 16; i++) {
-            if (i == 0 || i == 1 || i == 8 || i == 15) {// In the 1st 2nd 9th and 16th round rotate by one
-                // position
+            if (i == 0 || i == 1 || i == 8 || i == 15) {// In the 1st 2nd 9th and 16th round rotate by one position
                 leftHalf = rotate(leftHalf, 1);
                 rightHalf = rotate(rightHalf, 1);
             } else {// Else rotate by two positions
@@ -408,8 +372,7 @@ public class Main {
                     continue;// halfkey[28] wil raise an error
                 halfKey[i] = halfKey[i + 1];// left shifting each bit by equating it to the bit after
             }
-            halfKey[halfKey.length - 1] = firstBit;// Equating last bit to the first one before shifting in
-            // the loop with index j
+            halfKey[halfKey.length - 1] = firstBit;// Equating last bit to the first one before shifting in the loop with index j
         }
         return halfKey;
 
